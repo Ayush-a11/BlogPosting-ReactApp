@@ -6,6 +6,8 @@ import utilObj from '../../appWrite/util'
 import {useNavigate} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import { formatDistanceToNow } from 'date-fns';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFighterJet, faPencil, faSave, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
 function Posting({post}) {
 	
@@ -89,10 +91,11 @@ function Posting({post}) {
 			setAdminFlag(true);
 		}
 		if(post && !adminFlag){
-			setEditable((prev)=>!prev);
+			setEditable(false);
 		
 		}
-	},[post,userData])
+
+	},[post,userData, adminFlag])
 
 	const deletePost= async()=>{
 		try{
@@ -108,11 +111,11 @@ function Posting({post}) {
 	}
 	console.log('admin flag ',adminFlag)
   return (
-	<div  className=" my-10 py-10 w-full bg-slate-500  bg-opacity-5 h-5/6 shadow-2xl">
+	<div  className=" mx-auto max-w-6xl my-10 py-10 w-full bg-slate-500  bg-opacity-5 h-5/6 shadow-2xl">
 		 <h2 className='text-purple-500 font-bold text-3xl font-mono'>
 			{!post?`Create New Post`:`Post last Updated on ${timeElapsed}`} </h2>
 	<form onSubmit={handleSubmit(submit)}>
-	<div className="flex items-center">
+	<div className="flex justify-center items-center ">
 	
 		<Input placeholder="Enter Post title"
                type="text"
@@ -135,48 +138,55 @@ function Posting({post}) {
 			}}
 		/>
 		{ adminFlag &&
-		<button onClick={() => setEditable((prev)=>!prev)} className=' mt-5 bg-purple-700 text-white font-sans font-bold hover:bg-white hover:text-purple-800 border-2
+		<button onClick={() => setEditable((prev)=>!prev)} className=' w-16 h-10   bg-purple-700 text-white font-sans font-bold hover:bg-white hover:text-purple-800 border-2
 							hover:border-2 hover:border-black p-3 rounded-2xl'
-							type='button'>{editable?'Save':'Edit'}</button>
+							type='button'>{editable?<FontAwesomeIcon icon={faSave}/>:
+							<FontAwesomeIcon icon={faPencil}/>}</button>
 		}
-		{adminFlag && <button className=' mt-5 bg-purple-700 text-white font-sans font-bold hover:bg-white hover:text-purple-800 border-2
+		{adminFlag && <button className=' w-16 h-10  bg-purple-700 text-white font-sans font-bold hover:bg-white hover:text-purple-800 border-2
 							hover:border-2 hover:border-black p-3 rounded-2xl'
-							type='button' onClick={deletePost}>Delete</button>
+							type='button' onClick={deletePost}><FontAwesomeIcon className='mb-4' icon={faTrashCan}/></button>
 		}	
 		</div>
+		
+		
+		<div className="flex items-center justify-center border-2 border-slate-500 shadow-inner">
 		<RTE  label="Content" name="content" control={control} defaultValue={getValues("content")}
 			  />
-		
-		<div className="flex">
-		
-			<Input label="Image"
+		<div className=" flex-col items-center justify-center  w-1/2 " >
+		<Input label="Image"
 				   type="file"
 				   readOnly={!editable}
 				   disabled ={!editable}
 				   accept="image/png, image/jpg, image/jpeg, image/gif"
 				   {...register("image",{required : !post})}
-				   className=" "
+				   className=" pb-9 "
 			/>
-			{post && (
-					<img className="w-48 h-48 mr-9"
+		{post && (
+					<img className="w-96 h-72 " 
 						src={utilObj.getFilePreview(post.Image)}
 						alt={post.title}
 
 					 />
 			)}
+			
+			
 		</div>
+		</div>
+		{/* <div className="flex mt-10"> */}
 		<label className="text-lg font-bold font-mono h-10 w-12 inline-block text-left mr-10">Status</label>
-			<select disabled={!editable} readOnly={!editable} {...register("status")}>
+			<select className="border-2 border-purple-500 rounded-lg" disabled={!editable} readOnly={!editable} {...register("status")}>
 				<option value="active">Active</option>
 				<option value="inactive">InActive</option>
 			</select>
-			
+			{/* </div> */}
 		{((adminFlag && editable) || !post) && 
 		<button className=' mt-5 bg-purple-700 text-white font-sans font-bold hover:bg-white hover:text-purple-800 border-2
-						   hover:border-2 hover:border-black p-3 rounded-2xl' type='submit'>Submit</button>
+						   hover:border-2 hover:border-black p-3 rounded-2xl' type='submit'>Submit <FontAwesomeIcon icon={faFighterJet}/></button>
 		
 		}
 		</form>
+		
 	</div>
   )
 }

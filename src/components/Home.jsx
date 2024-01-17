@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import utilObj from '../appWrite/util'
 import Card from './Card';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 function Home() {
 	const [allPost,setAllpost] =useState([]);
-
+	const selector = useSelector((state)=>state.loggedIn);
+	const navigate=useNavigate();
+	console.log(selector)
 	useEffect(() => {
 		const getData = async () => {
 		  try {
@@ -16,8 +20,16 @@ function Home() {
 			console.error("Error fetching data:", error);
 		  }
 		};
+		
 	  
-		getData();
+		
+
+		if(!selector){
+			navigate('/Login');
+		}
+		else{
+			getData();
+		}
 	  }, []);
 
   return (
@@ -25,7 +37,7 @@ function Home() {
 
 		{!allPost.length >0 ? (<h2>No Post Exist</h2>):
 		(
-		<div className="border-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 mx-14">
+		<div className="border-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mx-14">
 			{allPost.map((item) =>(
 				<>
 				<div key={item.$id}>

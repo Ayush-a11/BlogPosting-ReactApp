@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 import authObj from '../../appWrite/auth'
 import {  Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton';
+import { faUserCheck, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 function Header() {
@@ -56,11 +58,11 @@ function Header() {
           <>
             <Link to='/Login'>
             <button  className=' border-2 border-purple-600  text-purple-600 font-mono font-bold hover:bg-purple-600 hover:text-black 
-						   hover:border-2 hover:border-black p-4 rounded-2xl mx-2'>&nbsp;LogIn</button>
+						   hover:border-2 hover:border-black p-4 rounded-2xl mx-2'><FontAwesomeIcon icon={faUserCheck}/>&nbsp;LogIn</button>
             </Link>
             <Link to='/SignUp'>
             <button  className=' border-2 border-purple-600  text-purple-600 font-mono font-bold hover:bg-purple-600 hover:text-black 
-						   hover:border-2 hover:border-black p-4 rounded-2xl'>&nbsp;SingUp</button>
+						   hover:border-2 hover:border-black p-4 rounded-2xl'><FontAwesomeIcon icon={faUserPlus}/>&nbsp;SingUp</button>
             </Link>
           </>
         }

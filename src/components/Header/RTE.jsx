@@ -4,7 +4,7 @@ import {Controller} from 'react-hook-form'
 
 function RTE({name, control,label,defaultValue="",readOnly=false}) {
   return (
-	<div className='w-full'>
+	<div className='w-1/2'>
 		{label && <label className="text-lg font-bold font-mono h-10 w-12 inline-block text-left mr-10">{label}</label>}
 		<Controller 
 			name={name || 'content'}
